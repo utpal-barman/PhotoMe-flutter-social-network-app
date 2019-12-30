@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:photome/providers/posts.dart';
+import 'package:photome/screens/auth-screen.dart';
 import 'package:photome/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +20,9 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.lime,
         ),
         home: HomeScreen(),
+        routes: {
+          '/auth-screen': (context) => AuthScreen(),
+        },
       ),
     );
   }
