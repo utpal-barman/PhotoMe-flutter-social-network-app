@@ -1,19 +1,40 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:photome/models/post_model.dart';
 import 'package:photome/providers/posts.dart';
+import 'package:photome/screens/auth-screen.dart';
+import 'package:photome/screens/profile_screen.dart';
 import 'package:photome/widgets/posts_widgets.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
+  static const routeName = '/home-screen';
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    Provider.of<Posts>(context, listen: false).fetchAndSetData();
+    super.initState();
+  }
+
   var _currentIndex = 0;
+
+  Future<void> _onRefreshHandler(BuildContext context) async {
+    Provider.of<Posts>(context, listen: false).fetchAndSetData();
+  }
+
+  Future<void> _postSomething() async {
+    Provider.of<Posts>(context, listen: false).writeData();
+  }
+
   @override
   Widget build(BuildContext context) {
     final List<Post> postData = Provider.of<Posts>(context).postList;
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -46,11 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           itemCount: postData.length,
         ),
-        onRefresh: () {
-          return Future.delayed(
-            Duration(seconds: 2),
-          );
-        },
+        onRefresh: () => _onRefreshHandler(context),
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -69,6 +86,10 @@ class _HomeScreenState extends State<HomeScreen> {
             title: Text("Search"),
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.add_circle_outline),
+            title: Text("New Post"),
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.favorite_border),
             title: Text("Notifications"),
           ),
@@ -81,6 +102,12 @@ class _HomeScreenState extends State<HomeScreen> {
           setState(() {
             _currentIndex = index;
           });
+          if (index == 2) {
+            _postSomething();
+          }
+          if (index == 4) {
+            Navigator.of(context).pushNamed(ProfileScreen.routeName);
+          }
         },
       ),
     );
