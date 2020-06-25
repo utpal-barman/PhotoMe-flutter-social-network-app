@@ -73,6 +73,6 @@ To learn more about me, join the conversation:
 
 
 ## License
-UShop is available under the [MIT license](https://www.mit.edu/~amini/LICENSE.md). Free for commercial and non-commercial use.
+This app is available under the [MIT license](https://www.mit.edu/~amini/LICENSE.md). Free for commercial and non-commercial use.
 
 
